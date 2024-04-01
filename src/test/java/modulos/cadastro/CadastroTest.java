@@ -6,11 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import paginas.LoginPage;
-import paginas.TelaCadastroPage;
 
 import java.time.Duration;
-
-import static org.openqa.selenium.By.*;
 
 @DisplayName("Testes web do cadastro de usuário")
 public class CadastroTest {
@@ -49,8 +46,20 @@ public class CadastroTest {
         System.out.println("Mensagem que foi coletada: " + msg);
         Assertions.assertEquals("Please enter a valid email address", msg);
 
-        //submeter botao de confirmar cadastro
-        //driver.findElement(By.cssSelector("button[type='submit']")).click();
+    }
+
+    @Test
+    @DisplayName("Nao e permitido deixar o campo 'Nome' em branco na hora de realizar o cadastro")
+    public void validarQueNaoPermiteCadastrarUmaContaNovaComCampoNomeEmBranco() {
+
+        new LoginPage(driver)
+                .clicarParaIrParaATelaDeCadastroDoUsuario()
+                .preencherCampoNome("")
+                .preencherCampoSobrenome("Testando");
+
+        String msg = driver.findElement(By.id("user[first_name]-error")).getText();
+        System.out.println("Mensagem que foi coletada: " + msg);
+        Assertions.assertEquals("This field cannot be blank", msg);
 
     }
 
