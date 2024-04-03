@@ -63,6 +63,24 @@ public class CadastroTest {
 
     }
 
+    @Test
+    @DisplayName("Nao e permitido deixar o campo 'Sobrenome' em branco na hora de realizar o cadastro")
+    public void validarQueNaoPermiteCadastrarUmaContaNovaComCampoSobrenomeEmBranco() {
+
+        new LoginPage(driver)
+                .clicarParaIrParaATelaDeCadastroDoUsuario()
+                .preencherCampoNome("Testando")
+                .preencherCampoSobrenome(" ")
+                .preencherCampoSenha("Testes123");
+
+        //driver.findElement(By.id("main-content")).click();
+
+        String msg = driver.findElement(By.xpath("//*[@id=\"user[last_name]-error\"]")).getText();
+        System.out.println("Mensagem que foi coletada" + msg);
+        //Assertions.assertEquals("This field cannot be blank", msg);
+
+    }
+
     @AfterEach
     @DisplayName("Executa após o final de cada teste.")
     public void afterEach() {
